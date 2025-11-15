@@ -15,13 +15,13 @@ const Footer = () => {
         px-8 md:px-10 lg:px-14
       ">
 
-        <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="flex items-end justify-center mb-6">
           <img 
             src={logo} 
             alt="ZapShift Logo" 
             className="w-10 md:w-12 lg:w-14"
           />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold -ms-2.5">
             Zap<span className="text-white">Shift</span>
           </h2>
         </div>

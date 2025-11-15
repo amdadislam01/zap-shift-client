@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
-import logo from "../../assets/logo.png";
+import { Link, NavLink } from "react-router";
+import Logo from "../../components/Logo";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -25,12 +25,9 @@ const Navbar = () => {
           flex justify-between items-center
         "
       >
-        <div className="flex items-center gap-2">
-          <img className="w-9 sm:w-10 md:w-11" src={logo} alt="Logo" />
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1c1c1c]">
-            Zap<span className="font-bold">Shift</span>
-          </h2>
-        </div>
+        <Link to={'/'}>
+        <Logo />
+        </Link>
 
         <ul
           className="
