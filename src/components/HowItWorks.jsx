@@ -27,7 +27,7 @@ const HowItWorks = () => {
 
   return (
     <section className="w-full flex justify-center px-4 sm:px-6 lg:px-10 py-10">
-      <div className="w-[95%] sm:w-[90%] lg:w-[85%] xl:w-[80%] 2xl:w-[72%]">
+      <div className="w-[95%] sm:w-[90%] lg:w-[85%] xl:w-[80%] 2xl:w-[70%]">
         <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center md:text-left">
           How it Works
         </h2>
