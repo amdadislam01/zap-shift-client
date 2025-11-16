@@ -6,6 +6,7 @@ import Brands from '../components/Brands'
 import ServiceFeatures from '../components/ServiceFeatures'
 import Merchant from '../components/Merchant'
 import Reviews from '../components/Reviews'
+import FAQ from '../components/FAQ'
 
 
 
@@ -21,6 +22,7 @@ const Home = () => {
       <ServiceFeatures />
       <Merchant />
       <Reviews reviewsPromise={reviewsPromise} />
+      <FAQ />
     </div>
   )
 }

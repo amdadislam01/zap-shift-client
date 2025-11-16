@@ -2,7 +2,7 @@ import React, { use } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination, EffectCoverflow } from "swiper/modules";
+import { Pagination, EffectCoverflow, Autoplay } from "swiper/modules";
 
 import topIllustration from "../assets/customer-top.png";
 import ReviewsCard from "./ReviewsCard";
@@ -26,9 +26,14 @@ const Reviews = ({ reviewsPromise }) => {
 
       <div className="w-full max-w-7xl">
         <Swiper
+          loop={true}
           effect={"coverflow"}
           grabCursor={true}
           centeredSlides={true}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
           breakpoints={{
             0: { slidesPerView: 1 },
             640: { slidesPerView: 1.4 },
@@ -37,14 +42,15 @@ const Reviews = ({ reviewsPromise }) => {
             1280: { slidesPerView: 3 },
           }}
           coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
+            rotate: 30,
+            stretch: "50%",
+            depth: 200,
+            scale: 0.75,
             modifier: 1,
             slideShadows: true,
           }}
           pagination={true}
-          modules={[EffectCoverflow, Pagination]}
+          modules={[EffectCoverflow, Pagination, Autoplay]}
           className="mySwiper"
         >
           {reviews?.map((item, i) => (

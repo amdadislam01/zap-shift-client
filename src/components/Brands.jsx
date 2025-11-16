@@ -1,8 +1,8 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { Autoplay } from 'swiper/modules';
 import "swiper/css";
-import "swiper/css/autoplay";
+
 
 import brands1 from "../assets/brands/amazon.png";
 import brands2 from "../assets/brands/amazon_vector.png";
@@ -31,12 +31,14 @@ const Brands = () => {
 
       <div className="w-full max-w-6xl mx-auto mt-8">
         <Swiper
-          modules={[Autoplay]}
-          loop={true}
+          centeredSlides={true}
+          spaceBetween={30}
           grabCursor={true}
-          autoplay={{ delay: 10, disableOnInteraction: false }}
-          speed={3500}
-          spaceBetween={10}
+          modules={[Autoplay]}
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
           breakpoints={{
             0: { slidesPerView: 3 },
             450: { slidesPerView: 4 },
@@ -47,11 +49,7 @@ const Brands = () => {
         >
           {brandsLogos.map((logo, i) => (
             <SwiperSlide key={i} className="flex justify-center items-center">
-              <img
-                src={logo}
-                alt=""
-                className="w-14 sm:w-18 md:w-22"
-              />
+              <img src={logo} alt="" className="w-14 sm:w-18 md:w-22" />
             </SwiperSlide>
           ))}
         </Swiper>
