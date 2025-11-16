@@ -2,6 +2,7 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import "swiper/css/autoplay";
 
 import brands1 from "../assets/brands/amazon.png";
 import brands2 from "../assets/brands/amazon_vector.png";
@@ -28,14 +29,14 @@ const Brands = () => {
         We've helped thousands of sales teams
       </h2>
 
-      <div className="w-full max-w-6xl mt-6">
+      <div className="w-full max-w-6xl mx-auto mt-8">
         <Swiper
           modules={[Autoplay]}
           loop={true}
           grabCursor={true}
-          autoplay={{ delay: 0, disableOnInteraction: false }}
+          autoplay={{ delay: 10, disableOnInteraction: false }}
           speed={3500}
-          spaceBetween={8}
+          spaceBetween={10}
           breakpoints={{
             0: { slidesPerView: 3 },
             450: { slidesPerView: 4 },
@@ -49,7 +50,7 @@ const Brands = () => {
               <img
                 src={logo}
                 alt=""
-                className="w-14 sm:w-16 md:w-20 opacity-90 hover:opacity-100 transition"
+                className="w-14 sm:w-18 md:w-22"
               />
             </SwiperSlide>
           ))}
