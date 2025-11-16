@@ -4,6 +4,7 @@ import HowItWorks from '../components/HowItWorks'
 import ServicesWrok from '../components/ServicesWrok'
 import Brands from '../components/Brands'
 import ServiceFeatures from '../components/ServiceFeatures'
+import Merchant from '../components/Merchant'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <ServicesWrok />
       <Brands />
       <ServiceFeatures />
+      <Merchant />
     </div>
   )
 }

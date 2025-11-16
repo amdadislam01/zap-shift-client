@@ -23,7 +23,7 @@ const ServiceFeatures = () => {
 
   return (
     <section className="w-full py-16 px-4 sm:px-6 md:px-10 max-w-7xl mx-auto">
-      <div className="border-t border-dashed border-gray-400 mb-10"></div>
+      <div className="border-t-2 border-dashed border-gray-400 mb-10"></div>
 
       <div className="flex flex-col gap-8">
         {features.map((item, i) => (
@@ -47,7 +47,7 @@ const ServiceFeatures = () => {
         ))}
       </div>
 
-      <div className="border-b border-dashed border-gray-400 mt-10"></div>
+      <div className="border-b-2 border-dashed border-gray-400 mt-10"></div>
     </section>
   );
 };
