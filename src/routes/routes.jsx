@@ -1,8 +1,12 @@
 import { createBrowserRouter } from "react-router";
 import MainLayouts from "../layouts/MainLayouts";
 import Home from "../pages/Home";
-import About from "../pages/About";
 import Coverage from "../pages/Coverage/Coverage";
+import About from "../pages/About/About";
+import Error from "../pages/Error/Error";
+import Login from "../auth/Login/Login";
+import Register from "../auth/Register/Register";
+import ForgatePassword from "../auth/ForgatePassword/ForgatePassword";
 
 export const router = createBrowserRouter([
   {
@@ -14,14 +18,30 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/about',
-        element: <About />
+        path: "/about",
+        element: <About />,
       },
       {
-        path: '/coverage',
+        path: "/coverage",
         element: <Coverage />,
-        loader: () => fetch('/serviceCenter.json').then(res => res.json())
-      }
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
+      },
+      {
+        path: "*",
+        element: <Error />,
+      },
     ],
   },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: '/forgate-password',
+    element: <ForgatePassword />
+  }
 ]);

@@ -25,9 +25,7 @@ const Navbar = () => {
           flex justify-between items-center
         "
       >
-        <Link to={'/'}>
         <Logo />
-        </Link>
 
         <ul
           className="
@@ -55,18 +53,27 @@ const Navbar = () => {
         </ul>
 
         <div className="hidden lg:flex items-center gap-3">
-          <button className="border border-gray-400 text-gray-700 px-4 py-2 rounded-lg hover:border-black duration-200 text-base">
+          <Link
+            to={"/login"}
+            className="border border-gray-400 text-gray-700 px-4 py-2 rounded-lg hover:border-black duration-200 text-base"
+          >
             Sign In
-          </button>
-          <button className="bg-[#ccff66] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#c7fb60] duration-200 text-base">
+          </Link>
+          <Link
+            to={"/register"}
+            className="bg-[#ccff66] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#c7fb60] duration-200 text-base"
+          >
             Sign Up
-          </button>
+          </Link>
           <button className="bg-black text-[#ccff66] w-10 h-10 rounded-full flex items-center justify-center hover:opacity-80 duration-200">
             <i className="fa-solid fa-arrow-up-right-from-square"></i>
           </button>
         </div>
 
-        <button className="md:hidden text-3xl text-gray-700" onClick={() => setOpen(true)}>
+        <button
+          className="md:hidden text-3xl text-gray-700"
+          onClick={() => setOpen(true)}
+        >
           <i className="fa-solid fa-bars"></i>
         </button>
       </nav>
@@ -76,23 +83,42 @@ const Navbar = () => {
           fixed top-0 left-0 w-full h-full bg-white z-50
           flex flex-col items-center justify-center gap-6 text-2xl font-semibold
           transition-all duration-300
-          ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}
+          ${
+            open
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }
         `}
       >
-        <button onClick={() => setOpen(false)} className="absolute top-6 right-6 text-4xl text-gray-800">
+        <button
+          onClick={() => setOpen(false)}
+          className="absolute top-6 right-6 text-4xl text-gray-800"
+        >
           <i className="fa-solid fa-xmark"></i>
         </button>
 
-        <NavLink to="/services" className={navItem} onClick={() => setOpen(false)}>
+        <NavLink
+          to="/services"
+          className={navItem}
+          onClick={() => setOpen(false)}
+        >
           Services
         </NavLink>
-        <NavLink to="/coverage" className={navItem} onClick={() => setOpen(false)}>
+        <NavLink
+          to="/coverage"
+          className={navItem}
+          onClick={() => setOpen(false)}
+        >
           Coverage
         </NavLink>
         <NavLink to="/about" className={navItem} onClick={() => setOpen(false)}>
           About Us
         </NavLink>
-        <NavLink to="/pricing" className={navItem} onClick={() => setOpen(false)}>
+        <NavLink
+          to="/pricing"
+          className={navItem}
+          onClick={() => setOpen(false)}
+        >
           Pricing
         </NavLink>
         <NavLink to="/rider" className={navItem} onClick={() => setOpen(false)}>

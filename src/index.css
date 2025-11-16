@@ -6,7 +6,7 @@ body {
   font-family: "Urbanist", sans-serif;
 }
 
-.leaflet-container.map-fix {
+.map-fix {
   z-index: 1 !important;
   position: relative !important;
 }
