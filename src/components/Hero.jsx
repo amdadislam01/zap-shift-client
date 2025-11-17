@@ -1,6 +1,7 @@
 import React from "react";
 import deleveryTop from "../assets/tiny-deliveryman.png";
 import heroright from "../assets/big-deliveryman.png";
+import { Link } from "react-router";
 
 const Hero = () => {
   return (
@@ -34,9 +35,9 @@ const Hero = () => {
               <i className="fa-solid fa-arrow-up-right-from-square"></i>
             </button>
 
-            <button className="border border-gray-300 px-6 py-3 rounded-xl text-gray-700 font-semibold w-full sm:w-auto">
+            <Link to={'/rider'} className="border border-gray-300 px-6 py-3 rounded-xl text-gray-700 font-semibold w-full sm:w-auto">
               Be A Rider
-            </button>
+            </Link>
           </div>
         </div>
 

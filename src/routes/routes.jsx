@@ -7,6 +7,8 @@ import Error from "../pages/Error/Error";
 import Login from "../auth/Login/Login";
 import Register from "../auth/Register/Register";
 import ForgatePassword from "../auth/ForgatePassword/ForgatePassword";
+import PrivetRoutes from "./PrivetRoutes";
+import BeRider from "../pages/BeRider/BeRider";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,10 @@ export const router = createBrowserRouter([
         path: "/coverage",
         element: <Coverage />,
         loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
+      },
+      {
+        path: '/rider',
+        element: <PrivetRoutes><BeRider /></PrivetRoutes>
       },
       {
         path: "*",

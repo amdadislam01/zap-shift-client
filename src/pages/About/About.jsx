@@ -20,7 +20,7 @@ const About = () => {
 
         <div className="w-full border-t border-gray-300 my-8"></div>
 
-        <div className="flex gap-8 text-lg font-medium mb-8">
+        <div className="flex gap-6 overflow-x-auto  text-base sm:text-lg font-medium mb-8">
           {tabs.map((tab) => (
             <button
               key={tab}
