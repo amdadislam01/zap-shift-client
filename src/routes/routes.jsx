@@ -9,6 +9,7 @@ import Register from "../auth/Register/Register";
 import ForgatePassword from "../auth/ForgatePassword/ForgatePassword";
 import PrivetRoutes from "./PrivetRoutes";
 import BeRider from "../pages/BeRider/BeRider";
+import SendParcel from "../pages/SendParcel/SendParcel";
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: '/rider',
         element: <PrivetRoutes><BeRider /></PrivetRoutes>
+      },
+      {
+        path: '/send-parcel',
+        element: <SendParcel />
       },
       {
         path: "*",

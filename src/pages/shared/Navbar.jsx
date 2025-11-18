@@ -28,7 +28,7 @@ const Navbar = () => {
           <NavLink to="/services" className={navItem}>Services</NavLink>
           <NavLink to="/coverage" className={navItem}>Coverage</NavLink>
           <NavLink to="/about" className={navItem}>About Us</NavLink>
-          <NavLink to="/pricing" className={navItem}>Pricing</NavLink>
+          <NavLink to="/send-parcel" className={navItem}>Send Parcel</NavLink>
           <NavLink to="/rider" className={navItem}>Be a Rider</NavLink>
         </ul>
 
@@ -95,7 +95,7 @@ const Navbar = () => {
         <NavLink to="/services" className={navItem} onClick={() => setOpen(false)}>Services</NavLink>
         <NavLink to="/coverage" className={navItem} onClick={() => setOpen(false)}>Coverage</NavLink>
         <NavLink to="/about" className={navItem} onClick={() => setOpen(false)}>About Us</NavLink>
-        <NavLink to="/pricing" className={navItem} onClick={() => setOpen(false)}>Pricing</NavLink>
+        <NavLink to="/send-parcel" className={navItem} onClick={() => setOpen(false)}>Send Parcel</NavLink>
         <NavLink to="/rider" className={navItem} onClick={() => setOpen(false)}>Be a Rider</NavLink>
 
         {!user ? (
