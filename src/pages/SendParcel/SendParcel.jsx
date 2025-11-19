@@ -1,17 +1,67 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowDown } from "react-icons/io";
+import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const SendParcel = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+  const servesCenter = useLoaderData();
+  const regionsDuplicate = servesCenter.map((c) => c.region);
+  const regions = [...new Set(regionsDuplicate)];
+  // Explore useMemo useCallback
+  const senderRegions = watch("senderRegion");
+  const receiverRegion = watch("receiverRegion");
+
+  const districtByResigons = (region) => {
+    const regionDistrict = servesCenter.filter((c) => c.region === region);
+    const districts = regionDistrict.map((d) => d.district);
+    return districts;
+  };
 
   const handelSendParcel = (data) => {
     console.log(data);
-    
+    const isDocument = data.parcelType === "document";
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+    const parcelWeight = parseFloat(data.parcelWeight);
+    let cost = 0;
+    if (isDocument) {
+      cost = isSameDistrict ? 60 : 80;
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameDistrict ? 110 : 150;
+      } else {
+        const minCharge = isSameDistrict ? 110 : 150;
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
+    }
+    console.log("cost price", cost);
+    Swal.fire({
+      title: "Agree with the Cost?",
+      text: `You have to be pay! ${cost} taka`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, take it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Confirm!",
+          text: "Your Product has been Confirmed.",
+          icon: "success",
+        });
+      }
+    });
   };
   return (
     <div className="w-full flex justify-center px-4 sm:px-6 lg:px-10 pt-20 pb-16 mt-12">
@@ -31,12 +81,23 @@ const SendParcel = () => {
           {/* RADIO BUTTONS */}
           <div className="flex gap-10 mb-8">
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="radio" name="type" value="document" {...register('parcelType')} defaultChecked />
+              <input
+                type="radio"
+                name="type"
+                value="document"
+                {...register("parcelType")}
+                defaultChecked
+              />
               <span>Document</span>
             </label>
 
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="radio" value="non-document" name="type" {...register('parcelType')} />
+              <input
+                type="radio"
+                value="non-document"
+                name="type"
+                {...register("parcelType")}
+              />
               <span>Not-Document</span>
             </label>
           </div>
@@ -47,7 +108,7 @@ const SendParcel = () => {
               <input
                 type="text"
                 placeholder="Parcel Name"
-                {...register('parcelName')}
+                {...register("parcelName")}
                 className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 outline-none"
               />
             </div>
@@ -59,7 +120,7 @@ const SendParcel = () => {
               <input
                 type="number"
                 placeholder="Parcel Weight (KG)"
-                {...register('parcelWeight')}
+                {...register("parcelWeight")}
                 className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 outline-none"
               />
             </div>
@@ -86,7 +147,7 @@ const SendParcel = () => {
                 <input
                   type="text"
                   placeholder="Sender Name"
-                  {...register('senderName')}
+                  {...register("senderName")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -96,7 +157,7 @@ const SendParcel = () => {
                 <input
                   type="text"
                   placeholder="Sender Email"
-                  {...register('senderEmail')}
+                  {...register("senderEmail")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -118,7 +179,7 @@ const SendParcel = () => {
                 <input
                   type="text"
                   placeholder="Address"
-                  {...register('senderAddress')}
+                  {...register("senderAddress")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -130,16 +191,41 @@ const SendParcel = () => {
                 <input
                   type="number"
                   placeholder="Sender Contact No"
-                  {...register('senderContact')}
+                  {...register("senderContact")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold">Your District</label>
+                <label className="text-sm font-semibold">Your Region</label>
                 <div className="relative">
-                  <select className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 appearance-none">
-                    <option>Select your region</option>
+                  <select
+                    {...register("senderRegion")}
+                    className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 appearance-none"
+                  >
+                    <option>Select your Region</option>
+                    {regions.map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                  <IoIosArrowDown className="absolute right-3 top-5 text-gray-500" />
+                </div>
+              </div>
+              <div>
+                <label className="text-sm font-semibold">Your Districts</label>
+                <div className="relative">
+                  <select
+                    {...register("senderDistrict")}
+                    className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 appearance-none"
+                  >
+                    <option>Select your Districts</option>
+                    {districtByResigons(senderRegions).map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
                   </select>
                   <IoIosArrowDown className="absolute right-3 top-5 text-gray-500" />
                 </div>
@@ -163,23 +249,20 @@ const SendParcel = () => {
                 <input
                   type="text"
                   placeholder="Receiver Name"
-                  {...register('receiverName')}
+                  {...register("receiverName")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
-
 
               <div>
                 <label className="text-sm font-semibold">Receiver Email</label>
                 <input
                   type="text"
                   placeholder="Receiver Email"
-                  {...register('receiverEmail')}
+                  {...register("receiverEmail")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
-
-
 
               {/* <div>
                 <label className="text-sm font-semibold">
@@ -200,7 +283,7 @@ const SendParcel = () => {
                 <input
                   type="text"
                   placeholder="Address"
-                  {...register('receiverAddress')}
+                  {...register("receiverAddress")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -212,7 +295,7 @@ const SendParcel = () => {
                 <input
                   type="number"
                   placeholder="Receiver Contact No"
-                  {...register('receiverContact')}
+                  {...register("receiverContact")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -220,8 +303,36 @@ const SendParcel = () => {
               <div>
                 <label className="text-sm font-semibold">Receiver Region</label>
                 <div className="relative">
-                  <select className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 appearance-none">
+                  <select
+                    {...register("receiverRegion")}
+                    className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 appearance-none"
+                  >
                     <option>Select your region</option>
+                    {regions.map((r, i) => (
+                      <option key={i} value={r}>
+                        {r}
+                      </option>
+                    ))}
+                  </select>
+                  <IoIosArrowDown className="absolute right-3 top-5 text-gray-500" />
+                </div>
+              </div>
+              {/* Receiver District */}
+              <div>
+                <label className="text-sm font-semibold">
+                  Receiver Districts
+                </label>
+                <div className="relative">
+                  <select
+                    {...register("receiverDistrict")}
+                    className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 appearance-none"
+                  >
+                    <option>Select your Districts</option>
+                    {districtByResigons(receiverRegion).map((d, i) => (
+                      <option key={i} value={d}>
+                        {d}
+                      </option>
+                    ))}
                   </select>
                   <IoIosArrowDown className="absolute right-3 top-5 text-gray-500" />
                 </div>
