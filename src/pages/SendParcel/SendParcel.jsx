@@ -3,14 +3,13 @@ import { useForm } from "react-hook-form";
 import { IoIosArrowDown } from "react-icons/io";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import UseAuth from "../../hooks/UseAuth";
 
 const SendParcel = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const axiosSecure = useAxiosSecure();
+  const {user} = UseAuth();
   const servesCenter = useLoaderData();
   const regionsDuplicate = servesCenter.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
@@ -25,6 +24,8 @@ const SendParcel = () => {
   };
 
   const handelSendParcel = (data) => {
+    data.senderName = user?.displayName;
+    data.senderEmail = user?.email;
     console.log(data);
     const isDocument = data.parcelType === "document";
     const isSameDistrict = data.senderDistrict === data.receiverDistrict;
@@ -52,9 +53,13 @@ const SendParcel = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, take it!",
+      confirmButtonText: "I Agree",
     }).then((result) => {
       if (result.isConfirmed) {
+        // Save the parcel info  to the database
+        axiosSecure.post("/parcels", data).then((res) => {
+          console.log("After Saving Parcel", res);
+        });
         Swal.fire({
           title: "Confirm!",
           text: "Your Product has been Confirmed.",
@@ -148,6 +153,7 @@ const SendParcel = () => {
                   type="text"
                   placeholder="Sender Name"
                   {...register("senderName")}
+                  defaultValue={user?.displayName}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -158,6 +164,7 @@ const SendParcel = () => {
                   type="text"
                   placeholder="Sender Email"
                   {...register("senderEmail")}
+                  defaultValue={user?.email}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3"
                 />
               </div>
@@ -213,6 +220,7 @@ const SendParcel = () => {
                   <IoIosArrowDown className="absolute right-3 top-5 text-gray-500" />
                 </div>
               </div>
+
               <div>
                 <label className="text-sm font-semibold">Your Districts</label>
                 <div className="relative">
@@ -237,6 +245,7 @@ const SendParcel = () => {
                 </label>
                 <textarea
                   placeholder="Pickup Instruction"
+                  {...register("pickupInstruction")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 h-24"
                 ></textarea>
               </div>
@@ -344,6 +353,7 @@ const SendParcel = () => {
                 </label>
                 <textarea
                   placeholder="Delivery Instruction"
+                  {...register("deliveryInstruction")}
                   className="w-full mt-1 border border-gray-300 rounded-lg px-4 py-3 h-24"
                 ></textarea>
               </div>
