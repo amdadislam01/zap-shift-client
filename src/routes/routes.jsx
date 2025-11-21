@@ -10,6 +10,9 @@ import ForgatePassword from "../auth/ForgatePassword/ForgatePassword";
 import PrivetRoutes from "./PrivetRoutes";
 import BeRider from "../pages/BeRider/BeRider";
 import SendParcel from "../pages/SendParcel/SendParcel";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
+
 
 export const router = createBrowserRouter([
   {
@@ -30,11 +33,15 @@ export const router = createBrowserRouter([
         loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
       },
       {
-        path: '/rider',
-        element: <PrivetRoutes><BeRider /></PrivetRoutes>
+        path: "/rider",
+        element: (
+          <PrivetRoutes>
+            <BeRider />
+          </PrivetRoutes>
+        ),
       },
       {
-        path: '/send-parcel',
+        path: "/send-parcel",
         element: <SendParcel />,
         loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
       },
@@ -53,7 +60,21 @@ export const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: '/forgate-password',
-    element: <ForgatePassword />
-  }
+    path: "/forgate-password",
+    element: <ForgatePassword />,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivetRoutes>
+        <DashboardLayout></DashboardLayout>
+      </PrivetRoutes>
+    ),
+    children: [
+      {
+        path: "my-parcels",
+        element: <MyParcels />,
+      },
+    ],
+  },
 ]);
