@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router";
 import Logo from "../../components/Logo";
 import UseAuth from "../../hooks/UseAuth";
+import { FaRightFromBracket } from "react-icons/fa6"; 
 
 const Navbar = () => {
   const { user, logoutUser } = UseAuth();
   const [open, setOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
 
   const navItem = ({ isActive }) =>
     isActive
@@ -24,6 +24,7 @@ const Navbar = () => {
       >
         <Logo />
 
+        {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-4 lg:gap-8 xl:gap-10 text-[14px] md:text-[15px] lg:text-[16px] font-medium text-gray-700">
           <NavLink to="/services" className={navItem}>Services</NavLink>
           <NavLink to="/coverage" className={navItem}>Coverage</NavLink>
@@ -32,6 +33,7 @@ const Navbar = () => {
           <NavLink to="/rider" className={navItem}>Be a Rider</NavLink>
         </ul>
 
+        {/* Desktop Auth */}
         {!user ? (
           <div className="hidden lg:flex items-center gap-3">
             <Link
@@ -48,29 +50,28 @@ const Navbar = () => {
             </Link>
           </div>
         ) : (
-          <div className="relative hidden lg:block">
-            <img
-              src={user?.photoURL}
-              alt="profile"
-              onClick={() => setProfileOpen(!profileOpen)}
-              className="w-10 h-10 rounded-full object-cover cursor-pointer border border-green-500"
-            />
+          <div className="hidden lg:flex items-center gap-4">
 
-            {profileOpen && (
-              <div className="absolute right-0 mt-3 w-52 bg-white shadow-lg rounded-xl py-3 px-4 flex flex-col gap-2">
-                <p className="font-semibold">{user?.displayName}</p>
-                <p className="text-sm text-gray-600">{user?.email}</p>
-                <button
-                  onClick={logoutUser}
-                  className="mt-2 bg-red-500 text-white py-1.5 rounded-lg"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
+            {/* Dashboard Link via Profile Image */}
+            <Link to="/dashboard">
+              <img
+                src={user?.photoURL}
+                alt="profile"
+                className="w-10 h-10 rounded-full object-cover cursor-pointer border border-green-500"
+              />
+            </Link>
+
+            <button
+              onClick={logoutUser}
+              className="bg-red-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer"
+            >
+              <FaRightFromBracket size={18} />
+              Logout
+            </button>
           </div>
         )}
 
+        {/* Mobile Menu Button */}
         <button
           className="md:hidden text-3xl text-gray-700"
           onClick={() => setOpen(true)}
@@ -79,6 +80,7 @@ const Navbar = () => {
         </button>
       </nav>
 
+      {/* Mobile Menu */}
       <div
         className={`
           fixed top-0 left-0 w-full h-full bg-white z-50 flex flex-col items-center justify-center gap-6 text-2xl font-semibold transition-all duration-300
@@ -98,6 +100,7 @@ const Navbar = () => {
         <NavLink to="/send-parcel" className={navItem} onClick={() => setOpen(false)}>Send Parcel</NavLink>
         <NavLink to="/rider" className={navItem} onClick={() => setOpen(false)}>Be a Rider</NavLink>
 
+        {/* Mobile Auth */}
         {!user ? (
           <>
             <Link to={'/login'} className="border border-gray-400 text-gray-700 py-2 px-8 rounded-lg">
@@ -109,16 +112,21 @@ const Navbar = () => {
           </>
         ) : (
           <div className="flex flex-col items-center gap-2 mt-4">
-            <img
-              src={user?.photoURL}
-              className="w-20 h-20 rounded-full object-cover border border-green-500"
-            />
+            <Link to="/dashboard" onClick={() => setOpen(false)}>
+              <img
+                src={user?.photoURL}
+                className="w-20 h-20 rounded-full object-cover border border-green-500 cursor-pointer"
+              />
+            </Link>
+
             <p>{user?.displayName}</p>
             <p className="text-lg text-gray-700">{user?.email}</p>
+
             <button
               onClick={logoutUser}
-              className="bg-red-500 text-white py-2 px-10 rounded-lg mt-3"
+              className="bg-red-500 text-white py-2 px-10 rounded-lg mt-3 flex items-center gap-2"
             >
+              <FaRightFromBracket size={24} />
               Logout
             </button>
           </div>

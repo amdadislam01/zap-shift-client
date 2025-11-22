@@ -75,6 +75,9 @@ export const router = createBrowserRouter([
         path: "my-parcels",
         element: <MyParcels />,
       },
+      {
+        path: ''
+      }
     ],
   },
 ]);

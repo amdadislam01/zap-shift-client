@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import {
   FiMenu,
   FiX,
@@ -16,6 +16,7 @@ import {
   FiCreditCard,
 } from "react-icons/fi";
 import Logo from "../components/Logo";
+import { TbTruckDelivery } from "react-icons/tb";
 
 const DashboardLayout = () => {
   const [open, setOpen] = useState(true);
@@ -23,11 +24,10 @@ const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen w-full bg-white flex relative">
-
-      {/* ========= OVERLAY  ========= */}
+      {/* ========= OVERLAY (Mobile) ========= */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          className="fixed inset-0 bg-black/40 z-40 md:hidden cursor-pointer"
           onClick={() => setMobileOpen(false)}
         ></div>
       )}
@@ -37,8 +37,6 @@ const DashboardLayout = () => {
         className={`
           bg-white border-r border-gray-300 px-4 py-5 flex flex-col transition-all duration-300
           ${open ? "w-[250px]" : "w-[80px]"}
-          
-          /* Mobile behavior */
           max-md:fixed max-md:top-0 max-md:left-0 max-md:h-full max-md:z-50
           max-md:transition-transform max-md:duration-300
           ${mobileOpen ? "max-md:translate-x-0" : "max-md:-translate-x-full"}
@@ -46,59 +44,83 @@ const DashboardLayout = () => {
       >
         <Logo />
 
-        {/* Menu */}
+        {/* Menu Section */}
         <nav className="flex-1 space-y-1 text-gray-700 mt-10">
-          {open && <div className="pb-6 text-xs text-gray-500">MENU</div>}
-
-          <Link
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all 
-              ${open ? "bg-[#E7F4D8]" : "justify-center bg-[#E7F4D8] px-2 py-4"}
-            `}
+          {open && <div className="pb-3 text-xs text-gray-500">MENU</div>}
+          <NavLink
+            to="/dashboard"
+            end
+            className={({ isActive }) =>
+              `
+              flex items-center gap-3 px-4 py-3 rounded-lg transition-all 
+              ${isActive ? "bg-[#E7F4D8] font-semibold" : "hover:bg-gray-100"}
+              ${!open ? "justify-center px-2 py-4" : ""}
+              `
+            }
           >
             <FiHome className="text-xl" />
             {open && "Dashboard"}
-          </Link>
+          </NavLink>
 
+          {/* Other Menu Items */}
           {[
-            { icon: <FiTruck />, label: "Deliveries" },
-            { icon: <FiFileText />, label: "Invoices" },
-            { icon: <FiShoppingBag />, label: "Stores" },
-            { icon: <FiCreditCard />, label: "Pricing Plan" },
-            { icon: <FiMap />, label: "Coverage Area" },
+            {
+              icon: <TbTruckDelivery />,
+              label: "My Parcels",
+              path: "/dashboard/my-parcels",
+            },
+            { icon: <FiTruck />, label: "Deliveries", path: "/deliveries" },
+            { icon: <FiFileText />, label: "Invoices", path: "/invoices" },
+            { icon: <FiShoppingBag />, label: "Stores", path: "/stores" },
+            { icon: <FiCreditCard />, label: "Pricing Plan", path: "/pricing" },
+            { icon: <FiMap />, label: "Coverage Area", path: "/coverage" },
           ].map((item, i) => (
-            <Link
+            <NavLink
               key={i}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-all
+              to={item.path}
+              end
+              className={({ isActive }) =>
+                `
+                flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                ${isActive ? "bg-[#E7F4D8] font-semibold" : "hover:bg-gray-100"}
                 ${
                   !open &&
                   "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"
                 }
-              `}
+                `
+              }
             >
               <span className="text-xl">{item.icon}</span>
               {open && item.label}
-            </Link>
+            </NavLink>
           ))}
 
+          {/* General Section */}
           {open && <div className="pt-6 text-xs text-gray-500">GENERAL</div>}
 
           {[
-            { icon: <FiSettings />, label: "Settings" },
-            { icon: <FiHelpCircle />, label: "Help" },
-            { icon: <FiLogOut />, label: "Logout" },
+            { icon: <FiSettings />, label: "Settings", path: "/settings" },
+            { icon: <FiHelpCircle />, label: "Help", path: "/help" },
+            { icon: <FiLogOut />, label: "Logout", path: "/logout" },
           ].map((item, i) => (
-            <Link
+            <NavLink
               key={i}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-all
+              to={item.path}
+              end
+              className={({ isActive }) =>
+                `
+                flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                ${isActive ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"}
                 ${
                   !open &&
                   "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"
                 }
-              `}
+                `
+              }
             >
               <span className="text-xl">{item.icon}</span>
               {open && item.label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
       </div>
@@ -107,8 +129,7 @@ const DashboardLayout = () => {
       <div className="flex-1 flex flex-col bg-[#F5F7F5]">
         <header className="w-full bg-white border-b border-gray-300 h-[70px] flex items-center justify-between px-6 sticky top-0 z-30">
           <div className="flex items-center gap-3">
-
-            {/* Mobile  */}
+            {/* Mobile Toggle */}
             <button
               className="text-xl md:hidden"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -116,17 +137,16 @@ const DashboardLayout = () => {
               {mobileOpen ? <FiX /> : <FiMenu />}
             </button>
 
-            {/* Desktop  */}
+            {/* Desktop Toggle */}
             <button
               className="text-xl hidden md:block"
               onClick={() => setOpen(!open)}
             >
               {open ? <FiX /> : <FiMenu />}
             </button>
-
-            <span className="text-lg font-semibold">Dashboard Overview</span>
           </div>
 
+          {/* Right User  */}
           <div className="flex items-center gap-4">
             <FiBell className="text-xl" />
             <div className="flex items-center gap-2">
@@ -150,14 +170,14 @@ const DashboardLayout = () => {
             className="bg-white rounded-3xl p-5 md:p-8 shadow-sm border border-gray-300"
             style={{ minHeight: "calc(100vh - 120px)" }}
           >
-            <div className="flex justify-end mb-6">
-              <Link
+            {/* <div className="flex justify-end mb-6">
+              <NavLink
                 to="/add-parcel"
                 className="bg-[#C9EA83] hover:bg-[#BFE46E] transition text-gray-700 font-semibold px-6 py-3 rounded-lg shadow-sm"
               >
                 + Add Parcel
-              </Link>
-            </div>
+              </NavLink>
+            </div> */}
 
             <Outlet />
           </div>
