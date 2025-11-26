@@ -12,6 +12,9 @@ import BeRider from "../pages/BeRider/BeRider";
 import SendParcel from "../pages/SendParcel/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../pages/Dashboard/Payment/Payment";
+import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
+import PaymentCencel from "../pages/Dashboard/Payment/PaymentCencel";
 
 
 export const router = createBrowserRouter([
@@ -76,7 +79,16 @@ export const router = createBrowserRouter([
         element: <MyParcels />,
       },
       {
-        path: ''
+        path: 'payment/:parcelId',
+        element: <Payment />
+      },
+      {
+        path: 'payment-success',
+        element: <PaymentSuccess></PaymentSuccess>
+      },
+      {
+        path: 'payment-cancelled',
+        element: <PaymentCencel></PaymentCencel>
       }
     ],
   },

@@ -3,182 +3,185 @@ import { NavLink, Outlet } from "react-router";
 import {
   FiMenu,
   FiX,
-  FiTruck,
-  FiFileText,
-  FiHome,
-  FiSettings,
-  FiLogOut,
-  FiHelpCircle,
   FiBell,
   FiChevronDown,
-  FiMap,
+  FiHome,
+  FiSettings,
+  FiHelpCircle,
+  FiLogOut,
+  FiTruck,
+  FiFileText,
   FiShoppingBag,
   FiCreditCard,
+  FiMap,
 } from "react-icons/fi";
-import Logo from "../components/Logo";
 import { TbTruckDelivery } from "react-icons/tb";
+import Logo from "../components/Logo";
+import UseAuth from "../hooks/UseAuth";
 
 const DashboardLayout = () => {
+  const { user, logoutUser } = UseAuth();
   const [open, setOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const generalMenu = [
+    { icon: <FiSettings />, label: "Settings", path: "/settings" },
+    { icon: <FiHelpCircle />, label: "Help", path: "/help" },
+    { icon: <FiLogOut />, label: "Logout", onclick: logoutUser },
+  ];
+
   return (
-    <div className="min-h-screen w-full bg-white flex relative">
-      {/* ========= OVERLAY (Mobile) ========= */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden cursor-pointer"
-          onClick={() => setMobileOpen(false)}
-        ></div>
-      )}
+    <div className="min-h-screen w-full bg-[#F5F7F5] relative">
 
-      {/* ========= SIDEBAR ========= */}
-      <div
-        className={`
-          bg-white border-r border-gray-300 px-4 py-5 flex flex-col transition-all duration-300
-          ${open ? "w-[250px]" : "w-[80px]"}
-          max-md:fixed max-md:top-0 max-md:left-0 max-md:h-full max-md:z-50
-          max-md:transition-transform max-md:duration-300
-          ${mobileOpen ? "max-md:translate-x-0" : "max-md:-translate-x-full"}
-        `}
-      >
-        <Logo />
+      {/* ============================
+           TOP NAVBAR (FIXED)
+      ============================= */}
+      <header className="w-full fixed top-0 left-0 bg-white border-b border-gray-300 h-[70px] flex items-center justify-between px-6 z-50">
+        
+        {/* Left: Logo + Toggle */}
+        <div className="flex items-center gap-4">
 
-        {/* Menu Section */}
-        <nav className="flex-1 space-y-1 text-gray-700 mt-10">
-          {open && <div className="pb-3 text-xs text-gray-500">MENU</div>}
-          <NavLink
-            to="/dashboard"
-            end
-            className={({ isActive }) =>
-              `
-              flex items-center gap-3 px-4 py-3 rounded-lg transition-all 
-              ${isActive ? "bg-[#E7F4D8] font-semibold" : "hover:bg-gray-100"}
-              ${!open ? "justify-center px-2 py-4" : ""}
-              `
-            }
+          {/* Sidebar Toggle (Desktop) */}
+          <button
+            className="text-xl hidden md:block"
+            onClick={() => setOpen(!open)}
           >
-            <FiHome className="text-xl" />
-            {open && "Dashboard"}
-          </NavLink>
+            {open ? <FiX /> : <FiMenu />}
+          </button>
 
-          {/* Other Menu Items */}
-          {[
-            {
-              icon: <TbTruckDelivery />,
-              label: "My Parcels",
-              path: "/dashboard/my-parcels",
-            },
-            { icon: <FiTruck />, label: "Deliveries", path: "/deliveries" },
-            { icon: <FiFileText />, label: "Invoices", path: "/invoices" },
-            { icon: <FiShoppingBag />, label: "Stores", path: "/stores" },
-            { icon: <FiCreditCard />, label: "Pricing Plan", path: "/pricing" },
-            { icon: <FiMap />, label: "Coverage Area", path: "/coverage" },
-          ].map((item, i) => (
-            <NavLink
-              key={i}
-              to={item.path}
-              end
-              className={({ isActive }) =>
-                `
-                flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                ${isActive ? "bg-[#E7F4D8] font-semibold" : "hover:bg-gray-100"}
-                ${
-                  !open &&
-                  "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"
-                }
-                `
-              }
-            >
-              <span className="text-xl">{item.icon}</span>
-              {open && item.label}
-            </NavLink>
-          ))}
+          {/* Mobile Sidebar Toggle */}
+          <button
+            className="text-xl md:hidden"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <FiX /> : <FiMenu />}
+          </button>
 
-          {/* General Section */}
-          {open && <div className="pt-6 text-xs text-gray-500">GENERAL</div>}
+          {/* Logo inside Navbar */}
+          <Logo />
+        </div>
 
-          {[
-            { icon: <FiSettings />, label: "Settings", path: "/settings" },
-            { icon: <FiHelpCircle />, label: "Help", path: "/help" },
-            { icon: <FiLogOut />, label: "Logout", path: "/logout" },
-          ].map((item, i) => (
-            <NavLink
-              key={i}
-              to={item.path}
-              end
-              className={({ isActive }) =>
-                `
-                flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                ${isActive ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"}
-                ${
-                  !open &&
-                  "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"
-                }
-                `
-              }
-            >
-              <span className="text-xl">{item.icon}</span>
-              {open && item.label}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
+        {/* Right Section */}
+        <div className="flex items-center gap-4">
+          <FiBell className="text-xl" />
 
-      {/* ========= MAIN AREA ========= */}
-      <div className="flex-1 flex flex-col bg-[#F5F7F5]">
-        <header className="w-full bg-white border-b border-gray-300 h-[70px] flex items-center justify-between px-6 sticky top-0 z-30">
-          <div className="flex items-center gap-3">
-            {/* Mobile Toggle */}
-            <button
-              className="text-xl md:hidden"
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              {mobileOpen ? <FiX /> : <FiMenu />}
-            </button>
-
-            {/* Desktop Toggle */}
-            <button
-              className="text-xl hidden md:block"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <FiX /> : <FiMenu />}
-            </button>
-          </div>
-
-          {/* Right User  */}
-          <div className="flex items-center gap-4">
-            <FiBell className="text-xl" />
-            <div className="flex items-center gap-2">
-              <img
-                src="/profile.png"
-                alt="user"
-                className="w-10 h-10 rounded-full border border-gray-300"
-              />
-              <div className="text-right leading-tight hidden md:block">
-                <p className="font-semibold text-sm">Zahid Hossain</p>
-                <p className="text-xs text-gray-500">Admin</p>
-              </div>
-              <FiChevronDown className="text-lg hidden md:block" />
+          <div className="flex items-center gap-2">
+            <img
+              src={user.photoURL}
+              alt="user"
+              className="w-10 h-10 rounded-full border border-gray-300"
+            />
+            <div className="text-right leading-tight hidden md:block">
+              <p className="font-semibold text-sm">{user.displayName}</p>
+              <p className="text-xs text-gray-500">Admin</p>
             </div>
+            <FiChevronDown className="text-lg hidden md:block" />
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* CONTENT */}
-        <div className="px-4 md:px-8 py-6">
-          <div
-            className="bg-white rounded-3xl p-5 md:p-8 shadow-sm border border-gray-300"
-            style={{ minHeight: "calc(100vh - 120px)" }}
-          >
-            {/* <div className="flex justify-end mb-6">
+      <div className="flex pt-[40px]">
+
+        {/* =============
+             SIDEBAR 
+        =================*/}
+        <div
+          className={`
+            bg-white border-r border-gray-300 px-4 py-5 flex flex-col transition-all duration-300
+            ${open ? "w-[250px]" : "w-[80px]"}
+            max-md:fixed max-md:top-[70px] max-md:left-0 max-md:h-full max-md:z-40
+            max-md:transition-transform max-md:duration-300
+            ${mobileOpen ? "max-md:translate-x-0" : "max-md:-translate-x-full"}
+          `}
+        >
+          <nav className="flex-1 space-y-1 text-gray-700 mt-5">
+            {open && <div className="pb-3 text-xs text-gray-500">MENU</div>}
+
+            {/* Dashboard */}
+            <NavLink
+              to="/dashboard"
+              end
+              className={({ isActive }) =>
+                `
+                flex items-center gap-3 px-4 py-3 rounded-lg transition-all 
+                ${isActive ? "bg-[#E7F4D8] font-semibold" : "hover:bg-gray-100"}
+                ${!open ? "justify-center px-2 py-4" : ""}
+                `
+              }
+            >
+              <FiHome className="text-xl" />
+              {open && "Dashboard"}
+            </NavLink>
+
+            {/* Menu Items */}
+            {[
+              { icon: <TbTruckDelivery />, label: "My Parcels", path: "/dashboard/my-parcels" },
+              { icon: <FiTruck />, label: "Deliveries", path: "/deliveries" },
+              { icon: <FiFileText />, label: "Invoices", path: "/invoices" },
+              { icon: <FiShoppingBag />, label: "Stores", path: "/stores" },
+              { icon: <FiCreditCard />, label: "Pricing Plan", path: "/pricing" },
+              { icon: <FiMap />, label: "Coverage Area", path: "/coverage" },
+            ].map((item, i) => (
               <NavLink
-                to="/add-parcel"
-                className="bg-[#C9EA83] hover:bg-[#BFE46E] transition text-gray-700 font-semibold px-6 py-3 rounded-lg shadow-sm"
+                key={i}
+                to={item.path}
+                end
+                className={({ isActive }) =>
+                  `
+                  flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                  ${isActive ? "bg-[#E7F4D8] font-semibold" : "hover:bg-gray-100"}
+                  ${!open && "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"}
+                  `
+                }
               >
-                + Add Parcel
+                <span className="text-xl">{item.icon}</span>
+                {open && item.label}
               </NavLink>
-            </div> */}
+            ))}
 
+            {/* General */}
+            {open && <div className="pt-6 text-xs text-gray-500">GENERAL</div>}
+
+            {generalMenu.map((item, i) =>
+              item.path ? (
+                <NavLink
+                  key={i}
+                  to={item.path}
+                  end
+                  className={({ isActive }) =>
+                    `
+                    flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+                    ${isActive ? "bg-gray-200 font-semibold" : "hover:bg-gray-100"}
+                    ${!open && "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"}
+                    `
+                  }
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  {open && item.label}
+                </NavLink>
+              ) : (
+                <button
+                  key={i}
+                  onClick={item.onclick}
+                  className={`
+                    w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left
+                    hover:bg-red-50 text-red-600
+                    ${!open && "justify-center px-2 py-4 border border-gray-300 bg-white shadow-sm"}
+                  `}
+                >
+                  <span className="text-xl">{item.icon}</span>
+                  {open && item.label}
+                </button>
+              )
+            )}
+          </nav>
+        </div>
+
+        {/* ============================
+             MAIN CONTENT
+        ============================= */}
+        <div className="flex-1 p-6 md:p-8">
+          <div className="bg-white rounded-3xl p-5 md:p-8 shadow-sm border border-gray-300 min-h-[80vh]">
             <Outlet />
           </div>
         </div>

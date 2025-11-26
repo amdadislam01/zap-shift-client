@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowDown } from "react-icons/io";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import UseAuth from "../../hooks/UseAuth";
@@ -9,8 +9,9 @@ import UseAuth from "../../hooks/UseAuth";
 const SendParcel = () => {
   const { register, handleSubmit, watch } = useForm();
   const axiosSecure = useAxiosSecure();
-  const {user} = UseAuth();
+  const { user } = UseAuth();
   const servesCenter = useLoaderData();
+  const navigate = useNavigate();
   const regionsDuplicate = servesCenter.map((c) => c.region);
   const regions = [...new Set(regionsDuplicate)];
   // Explore useMemo useCallback
@@ -46,6 +47,7 @@ const SendParcel = () => {
       }
     }
     console.log("cost price", cost);
+    data.cost = cost;
     Swal.fire({
       title: "Agree with the Cost?",
       text: `You have to be pay! ${cost} taka`,
@@ -59,11 +61,15 @@ const SendParcel = () => {
         // Save the parcel info  to the database
         axiosSecure.post("/parcels", data).then((res) => {
           console.log("After Saving Parcel", res);
-        });
-        Swal.fire({
-          title: "Confirm!",
-          text: "Your Product has been Confirmed.",
-          icon: "success",
+          if (res.data.insertedId) {
+            navigate('/dashboard/my-parcels')
+            Swal.fire({
+              title: "Confirm!",
+              text: "Your Parcel has been Created.",
+              icon: "success",
+              timer: 1000
+            });
+          }
         });
       }
     });
