@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
@@ -6,6 +6,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const PaymentSuccess = () => {
   const [searchPharams] = useSearchParams();
   const axiosSecure = useAxiosSecure();
+  const [paymentInfo, setPaymentInfo]= useState({});
   const sessionId = searchPharams.get("session_id");
   console.log(sessionId);
   useEffect(() => {
@@ -14,6 +15,10 @@ const PaymentSuccess = () => {
         .patch(`/payment-success?session_id=${sessionId}`)
         .then((res) => {
           console.log(res.data);
+          setPaymentInfo({
+            transactionId: res.data.transactionId,
+            trackingId: res.data.trackingId
+          })
         });
     }
   }, [sessionId, axiosSecure]);
@@ -31,9 +36,16 @@ const PaymentSuccess = () => {
           Payment Successful!
         </h2>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-2">
           Your payment was completed successfully. Thank you for your purchase!
           A confirmation email has been sent to your inbox.
+        </p>
+
+        <p className="text-gray-600 mb-2">
+          Your TransactionId : {paymentInfo.transactionId} 
+        </p>
+        <p className="text-gray-600 mb-2">
+          Your Parcel TrackingId : {paymentInfo.trackingId} 
         </p>
 
         <button
