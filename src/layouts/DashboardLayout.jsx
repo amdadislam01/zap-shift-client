@@ -118,7 +118,7 @@ const DashboardLayout = () => {
               { icon: <TbTruckDelivery />, label: "My Parcels", path: "/dashboard/my-parcels" },
               { icon: <FiTruck />, label: "Deliveries", path: "/deliveries" },
               { icon: <FiFileText />, label: "Invoices", path: "/invoices" },
-              { icon: <FiShoppingBag />, label: "Stores", path: "/stores" },
+              { icon: <FiShoppingBag />, label: "Payment History", path: "/dashboard/payment-history" },
               { icon: <FiCreditCard />, label: "Pricing Plan", path: "/pricing" },
               { icon: <FiMap />, label: "Coverage Area", path: "/coverage" },
             ].map((item, i) => (
