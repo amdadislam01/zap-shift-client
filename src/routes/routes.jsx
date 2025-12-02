@@ -16,6 +16,9 @@ import Payment from "../pages/Dashboard/Payment/Payment";
 import PaymentSuccess from "../pages/Dashboard/Payment/PaymentSuccess";
 import PaymentCencel from "../pages/Dashboard/Payment/PaymentCencel";
 import PaymentHistory from "../pages/Dashboard/Payment/PaymentHistory";
+import DeliverysBoy from "../pages/Dashboard/DeliverysBoy/DeliverysBoy";
+import UsersManagement from "../pages/Dashboard/UsersManagement/UsersManagement";
+import AdminRoutes from "./AdminRoutes";
 
 
 export const router = createBrowserRouter([
@@ -43,6 +46,7 @@ export const router = createBrowserRouter([
             <BeRider />
           </PrivetRoutes>
         ),
+        loader: () => fetch("/serviceCenter.json").then((res) => res.json()),
       },
       {
         path: "/send-parcel",
@@ -94,7 +98,15 @@ export const router = createBrowserRouter([
       {
         path: 'payment-history',
         element: <PaymentHistory />
-      }
+      },
+      {
+        path: 'delivery-boy',
+        element: <AdminRoutes><DeliverysBoy /></AdminRoutes>
+      },
+      {
+        path: 'user-management',
+        element: <AdminRoutes><UsersManagement /></AdminRoutes>
+      },
     ],
   },
 ]);

@@ -17,6 +17,8 @@ const MyParcels = () => {
       return res.data;
     },
   });
+  console.log(parcels);
+  
 
   const handelParcelDelete = (id) => {
     Swal.fire({

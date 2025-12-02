@@ -58,10 +58,10 @@ const PaymentHistory = () => {
         }
     })
   return (
-    <div className="p-2 max-w-7xl mx-auto">
+    <div className="p-2 max-w-[1500px] mx-auto">
       <h1 className="text-4xl font-bold mb-6">Payment History: {payments.length}</h1>
 
-      <div className="border rounded-xl overflow-hidden">
+      <div className="border border-gray-300 rounded-xl overflow-hidden">
         <table className="w-full text-left">
           <thead>
             <tr className="bg-gray-100 text-gray-700 text-sm">
