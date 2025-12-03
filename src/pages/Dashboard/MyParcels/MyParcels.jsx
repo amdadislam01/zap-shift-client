@@ -121,7 +121,7 @@ const MyParcels = () => {
                   {/* STATUS */}
                   <td className="py-3 px-5 block md:table-cell text-center">
                     <span className="inline-block px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700 font-semibold">
-                      Pending
+                      {parcel.deliveryStatus}
                     </span>
                   </td>
 

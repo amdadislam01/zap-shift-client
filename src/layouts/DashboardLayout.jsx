@@ -11,7 +11,6 @@ import {
   FiLogOut,
   FiTruck,
   FiShoppingBag,
-  FiCreditCard,
   FiMap,
   FiUser,
 } from "react-icons/fi";
@@ -19,6 +18,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import Logo from "../components/Logo";
 import UseAuth from "../hooks/UseAuth";
 import useRoll from "../hooks/useRoll";
+import { RiMotorbikeFill } from "react-icons/ri";
 
 const DashboardLayout = () => {
   const { role } = useRoll();
@@ -49,9 +49,12 @@ const DashboardLayout = () => {
       label: "Users Management",
       path: "/dashboard/user-management",
     },
-
     { icon: <FiShoppingBag />, label: "Payment History", path: "/dashboard/payment-history" },
-    { icon: <FiCreditCard />, label: "Pricing Plan", path: "/pricing" },
+    role === "admin" && {
+      icon: <RiMotorbikeFill />,
+      label: "Approved Riders",
+      path: "/dashboard/approved-riders",
+    },
     { icon: <FiMap />, label: "Coverage Area", path: "/coverage" },
   ].filter(Boolean); 
 
